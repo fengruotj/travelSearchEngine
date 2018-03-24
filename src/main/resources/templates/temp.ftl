@@ -44,6 +44,11 @@
       </div>
   </div>
 
+  <#list page.list as result>
+ 	 ${result.title!}<br/>
+ 	 ${result.describe}
+  </#list>
+
   </body>
 </html>
 </html>

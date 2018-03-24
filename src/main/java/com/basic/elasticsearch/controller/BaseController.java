@@ -1,8 +1,10 @@
 package com.basic.elasticsearch.controller;
 
+import com.basic.elasticsearch.services.ElasticSearchService;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -24,6 +26,9 @@ public class BaseController {
     }
 
     protected Gson gson = new Gson();
+
+    @Autowired
+    protected ElasticSearchService elasticSearchService;
 
     protected static final Logger log = LoggerFactory.getLogger(BaseController.class);
 

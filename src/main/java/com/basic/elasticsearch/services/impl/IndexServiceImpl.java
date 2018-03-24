@@ -3,18 +3,21 @@ package com.basic.elasticsearch.services.impl;
 import com.basic.elasticsearch.model.TourDoc;
 import com.basic.elasticsearch.services.IndexService;
 import com.basic.elasticsearch.utils.ElasticSearchUtils;
-import com.basic.elasticsearch.utils.HBaseUtils;
 import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * locate com.basic.elasticsearch.services
  * Created by mastertj on 2018/3/24.
  */
+@Service("indexService")
 public class IndexServiceImpl implements IndexService {
 
     private String TABLE_NAME="tourDetailsTable";
@@ -35,7 +38,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public void initIndexAndData(String filePath) {
         List<TourDoc> arrayList = new ArrayList<TourDoc>();
-        File file = new File("data/xiechengTou.txt");
+        File file = new File(filePath);
         List<String> list = null;
         try {
             list = FileUtils.readLines(file,"UTF8");
@@ -45,7 +48,7 @@ public class IndexServiceImpl implements IndexService {
 
         for(String line : list){
             TourDoc Doc = new TourDoc();
-            String[] split = line.split("\t");
+			String[] split = line.split("\t");
             int id = Integer.parseInt(split[0].trim());
             String title= String.valueOf(split[1].trim());
             String describe= String.valueOf(split[2].trim());
@@ -58,7 +61,6 @@ public class IndexServiceImpl implements IndexService {
             String startMonth= String.valueOf(split[9].trim());
             String cost_include= String.valueOf(split[10].trim());
             String visaRequirements= String.valueOf(split[11].trim());
-            String publishDate= String.valueOf(split[12].trim());
             Doc.setId(id);
             Doc.setTitle(title);
             Doc.setDescribe(describe);
@@ -71,28 +73,29 @@ public class IndexServiceImpl implements IndexService {
             Doc.setStartMonth(startMonth);
             Doc.setCostInclude(cost_include);
             Doc.setVisaRequirements(visaRequirements);
-            Doc.setPublishDate(publishDate);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            Doc.setPublishDate(sdf.format(new Date()));
             arrayList.add(Doc);
         }
 
         for (TourDoc doc : arrayList) {
             try {
                 //把数据插入hbase
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TITLE, doc.getTitle());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, DESCRIBE, doc.getDescribe());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, CONTENT, doc.getContent());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, SUPPLIER, doc.getSupplier());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, PRICE, String.valueOf(doc.getPrice()));
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TOURLINE, String.valueOf(doc.getTourDays()));
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TOURDAYS, String.valueOf(doc.getTourDays()));
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, STARTCITY, doc.getStartCity());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, STARTMONTH, doc.getStartMonth());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, COSTINCLUDE, doc.getCostInclude());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, VISAREQUIREMENTS, doc.getVisaRequirements());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, PUBLISHDATE, doc.getPublishDate());
-                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TITLE, doc.getTitle());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TITLE, doc.getTitle());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, DESCRIBE, doc.getDescribe());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, CONTENT, doc.getContent());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, SUPPLIER, doc.getSupplier());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, PRICE, String.valueOf(doc.getPrice()));
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TOURLINE, String.valueOf(doc.getTourDays()));
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TOURDAYS, String.valueOf(doc.getTourDays()));
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, STARTCITY, doc.getStartCity());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, STARTMONTH, doc.getStartMonth());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, COSTINCLUDE, doc.getCostInclude());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, VISAREQUIREMENTS, doc.getVisaRequirements());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, PUBLISHDATE, doc.getPublishDate());
+//                HBaseUtils.addRecord(TABLE_NAME, doc.getId()+"", FAMILYNAME, TITLE, doc.getTitle());
                 //把数据插入es
-                ElasticSearchUtils.addIndex("tourDetailsIndex","tour",doc);
+                ElasticSearchUtils.addIndex("tourindex","tour",doc);
             } catch (Exception e) {
                 e.printStackTrace();
             }
