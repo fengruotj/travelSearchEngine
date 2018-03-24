@@ -30,7 +30,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
     @Override
     public Map<String, Object> search(String key, String index, String type, int start, int row) {
-		SearchRequestBuilder builder = ElasticSearchUtils.getClient().prepareSearch(index);
+		SearchRequestBuilder builder = ElasticSearchUtils.initClient().prepareSearch(index);
 		builder.setTypes(type);
 		builder.setFrom(start);
 		builder.setSize(row);

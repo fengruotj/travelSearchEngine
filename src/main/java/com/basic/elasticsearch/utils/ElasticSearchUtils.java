@@ -31,7 +31,7 @@ public class ElasticSearchUtils {
 		 * 获取客户端
 		 * @return
 		 */
-		public static  Client getClient() {
+		public static  Client initClient() {
 			if(client!=null){
 				return client;
 			}
@@ -53,7 +53,7 @@ public class ElasticSearchUtils {
 
 	public static String addIndex(String index,String type,TourDoc doc){
 		if(client==null)
-			getClient();
+			initClient();
 
 		JsonObject jsonObject=new JsonObject();
 		jsonObject.addProperty("id",doc.getId());
@@ -75,6 +75,7 @@ public class ElasticSearchUtils {
 		LOG.info("当前实例状态："+indexResponse.status());
 		return indexResponse.getId();
 	}
+
 
 //	public static void main(String[] args) {
 //		Map<String, Object> search = Esutil.search("hbase", "bjsxt", "doc", 0, 10);
