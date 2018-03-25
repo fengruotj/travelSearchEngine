@@ -3,6 +3,8 @@ http://ubuntu2:9200/tourindex
 
 #添加索引的结构
 http://ubuntu2:9200/tourindex/_mapping/tour/
+
+````json
 {
 	"properties": {
 		"id": {

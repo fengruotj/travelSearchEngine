@@ -1,6 +1,7 @@
 package com.basic.elasticsearch.controller;
 
 import com.basic.elasticsearch.services.ElasticSearchService;
+import com.basic.elasticsearch.services.HBaseService;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ public class BaseController {
 
     @Autowired
     protected ElasticSearchService elasticSearchService;
+    @Autowired
+    protected HBaseService hBaseService;
 
     protected static final Logger log = LoggerFactory.getLogger(BaseController.class);
 

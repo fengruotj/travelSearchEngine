@@ -16,6 +16,11 @@ public class WebController extends BaseController{
         return "temp";
     }
 
+    @RequestMapping(value = "/")
+    public String index(){
+        return "index";
+    }
+
     @RequestMapping(value = "/uploadftl")
     public String upload(){
         log.info("abcdefg");
@@ -32,5 +37,15 @@ public class WebController extends BaseController{
     public String sendFunc(@PathVariable("var1") String var1, @PathVariable("var2") String var2){
         return mainPath+var1+"/"+var2;
     }
+
+	/**
+	 * 页面转发控制器 一个参数
+	 * @param var1
+	 * @return
+	 */
+	@RequestMapping("/travel_{var1}")
+	public String sendFunc(@PathVariable("var1") String var1){
+		return mainPath+var1;
+	}
 
 }

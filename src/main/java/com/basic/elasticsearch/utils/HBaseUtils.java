@@ -26,30 +26,35 @@ public class HBaseUtils {
     private static Configuration conf = null;
     private static Connection connection;
     protected static Admin admin;
+
     static {
-        try {
-            org.apache.commons.configuration.Configuration config = new PropertiesConfiguration("hbase.properties");
-            String hbase_zookeeper_client_port = config.getString("hbase.zk.port");
-            String hbase_zookeeper_quorum = config.getString("hbase.zk.host");
-            String hbase_master = config.getString("hbase.master");
-            log.debug("HBase config debug zookeeper client port: "+hbase_zookeeper_client_port);
-            log.debug("HBase config debug zookeeper quorum: "+hbase_zookeeper_quorum);
-            log.debug("HBase config debug hbase master: "+hbase_master);
-            conf = HBaseConfiguration.create();
-            conf.set("hbase.zookeeper.property.clientPort", hbase_zookeeper_client_port);
-            conf.set("hbase.zookeeper.quorum", hbase_zookeeper_quorum);
-            conf.set("hbase.master", hbase_master);
-            connection = ConnectionFactory.createConnection(conf);
-            admin = connection.getAdmin();
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-            log.error("init HBase Configuration Exception: "+e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            log.error("init HBase Configuration Exception: " + e.getMessage());
-        }
+		initClient();
     }
 
+    public static Connection initClient(){
+		try {
+			org.apache.commons.configuration.Configuration config = new PropertiesConfiguration("hbase.properties");
+			String hbase_zookeeper_client_port = config.getString("hbase.zk.port");
+			String hbase_zookeeper_quorum = config.getString("hbase.zk.host");
+			String hbase_master = config.getString("hbase.master");
+			log.debug("HBase config debug zookeeper client port: "+hbase_zookeeper_client_port);
+			log.debug("HBase config debug zookeeper quorum: "+hbase_zookeeper_quorum);
+			log.debug("HBase config debug hbase master: "+hbase_master);
+			conf = HBaseConfiguration.create();
+			conf.set("hbase.zookeeper.property.clientPort", hbase_zookeeper_client_port);
+			conf.set("hbase.zookeeper.quorum", hbase_zookeeper_quorum);
+			conf.set("hbase.master", hbase_master);
+			connection = ConnectionFactory.createConnection(conf);
+			admin = connection.getAdmin();
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			log.error("init HBase Configuration Exception: "+e.getMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error("init HBase Configuration Exception: " + e.getMessage());
+		}
+		return connection;
+    }
     /**
      * 创建 HBase 表
      * @param tableName
@@ -211,15 +216,16 @@ public class HBaseUtils {
      * @param rowKey
      * @throws IOException
      */
-    public static void getOneRecord (String tableName, String rowKey) throws IOException {
+    public static Result getOneRecord (String tableName, String rowKey) throws IOException {
         HTable table = (HTable) connection.getTable(TableName.valueOf(tableName));
         Get get = new Get(rowKey.getBytes());
         Result rs = table.get(get);
         for(Cell cell : rs.rawCells()){
-            System.out.println("列簇为：" + new String(CellUtil.cloneFamily(cell)));
-            System.out.println("值为："+new String(CellUtil.cloneValue(cell)));
+            log.debug("列簇为：" + new String(CellUtil.cloneFamily(cell)));
+            log.debug("值为："+new String(CellUtil.cloneValue(cell)));
         }
         table.close();
+        return rs;
     }
 
     /**

@@ -25,6 +25,9 @@ public class ElasticSearchContoller extends BaseController {
 								@RequestParam(value="keyWords",required = false) String keyWords,
 								@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
 								@RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize){
+		if(keyWords==null||keyWords.equals("")){
+			return "search";
+		}
 
 		Map<String,Object> map = new HashMap<String, Object>();
 		int count = 0;
@@ -42,9 +45,9 @@ public class ElasticSearchContoller extends BaseController {
 		log.info(page.getList().toString());
 		model.addAttribute("total",count);
 		model.addAttribute("pageNum",pageNum);
-		model.addAttribute("page",page);
+		model.addAttribute("data",page.getList());
 		model.addAttribute("kw",keyWords);
-		return "temp";
+		return "search";
 	}
 
 }

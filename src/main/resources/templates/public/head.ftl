@@ -1,32 +1,26 @@
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<#assign tour="${BasePath}">
+<title>旅游搜索引擎页面</title>
 
-  <#assign tour="${BasePath}">
 
-<title>旅游搜索引擎</title>
+<!-- Bootstrap -->
 
-<#--<!-- 下面是前端页面的css &ndash;&gt;-->
-      <link rel="stylesheet" href="${tour}/js/jquery-easyui-1.3.5/themes/metro/easyui.css">
-      <link rel="stylesheet" href="${tour}/js/jquery-easyui-1.3.5/themes/icon.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
-      <script type="text/javascript" src="${tour}/js/jquery-easyui-1.3.5/jquery.min.js"></script>
-      <script type="text/javascript" src="${tour}/js/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
-      <script type="text/javascript" src="${tour}/js/jquery-easyui-1.3.5/locale/easyui-lang-zh_CN.js"></script>
-
-      <#--<link rel="stylesheet" type="text/css" href="http://www.w3cschool.cc/try/jeasyui/themes/default/easyui.css">-->
-      <#--<link rel="stylesheet" type="text/css" href="http://www.w3cschool.cc/try/jeasyui/themes/icon.css">-->
-      <#--<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>-->
-      <#--<script type="text/javascript" src="http://www.w3cschool.cc/try/jeasyui/jquery.easyui.min.js"></script>-->
-
-      <script type="text/javascript" src=${tour}/js/map.js></script>
-      <script type="text/javascript" src=${tour}/js/easyui.js></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 
 
